@@ -1,12 +1,20 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+// import PropTypes from 'prop-types';
 import StyledForm from './ContactForm.styled';
 import StyledButton from 'components/Button.styled';
+import { addContact } from 'redux/contactsSlice';
 
-const ContactForm = ({ getFormData }) => {
+const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
+  console.log(
+    'useSelector(state => state) :>> ',
+    useSelector(state => state)
+  );
   const handleChange = e => {
     const { name, value } = e.target;
     name === 'name' ? setName(value) : setNumber(value);
@@ -14,12 +22,22 @@ const ContactForm = ({ getFormData }) => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    const contact = {
+    const newContact = {
       name,
       number,
     };
+    const normalizedName = newContact.name.toLowerCase();
+    const contactsIncludes = contacts?.find(
+      contact =>
+        contact.name.toLowerCase() === normalizedName ||
+        contact.number === newContact.number
+    );
+    if (contactsIncludes) {
+      return toast.error(`${newContact.name} is already in contacts`);
+    }
 
-    getFormData(contact);
+    dispatch(addContact(newContact));
+
     reset();
   };
 
@@ -59,8 +77,8 @@ const ContactForm = ({ getFormData }) => {
   );
 };
 
-ContactForm.propTypes = {
-  getFormData: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//   getFormData: PropTypes.func.isRequired,
+// };
 
 export default ContactForm;
