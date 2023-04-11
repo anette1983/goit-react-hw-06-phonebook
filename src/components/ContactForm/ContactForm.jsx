@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-// import PropTypes from 'prop-types';
+import { addContact } from 'redux/contactsSlice';
 import StyledForm from './ContactForm.styled';
 import StyledButton from 'components/Button.styled';
-import { addContact } from 'redux/contactsSlice';
+import { getContacts } from 'redux/selectors';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts);
-  console.log(
-    'useSelector(state => state) :>> ',
-    useSelector(state => state)
-  );
+
+  const contacts = useSelector(getContacts);
+
   const handleChange = e => {
     const { name, value } = e.target;
     name === 'name' ? setName(value) : setNumber(value);
@@ -27,7 +25,7 @@ const ContactForm = () => {
       number,
     };
     const normalizedName = newContact.name.toLowerCase();
-    const contactsIncludes = contacts?.find(
+    const contactsIncludes = contacts.find(
       contact =>
         contact.name.toLowerCase() === normalizedName ||
         contact.number === newContact.number
@@ -76,9 +74,5 @@ const ContactForm = () => {
     </StyledForm>
   );
 };
-
-// ContactForm.propTypes = {
-//   getFormData: PropTypes.func.isRequired,
-// };
 
 export default ContactForm;

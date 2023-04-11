@@ -1,27 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import persistReducer from 'redux-persist/es/persistReducer';
-// import storage from 'redux-persist/lib/storage';
-
-const filterInitialState = '';
-
-// const persistConfig = {
-//   key: 'filter',
-//   storage,
-//   //   если хотм=им сохр неск значение
-//   //   whitelist: ['value', 'a'],
-//   // блеклист - если все, кроме одного
-// };
 
 const filterSlice = createSlice({
   name: 'filter',
-  initialState: filterInitialState,
+  initialState: '',
   reducers: {
-    setFilter: (state, action) => {
-      state.filter = action.payload;
-    },
+    setFilter: (_, { payload }) => payload,
+    // в пуст строку фильтра в стейте записали пейлоуд
+    // setFilter: (state, { payload }) => {
+    //   return (state = payload);
+    // },
   },
 });
 
-export const { setStatusFilter } = filterSlice.actions;
-// export const filterReducer = filterSlice.reducer;
-export const filterReducer = filterSlice.reducer;
+export const { setFilter } = filterSlice.actions;
+
+export default filterSlice.reducer;

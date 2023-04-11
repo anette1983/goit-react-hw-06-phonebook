@@ -1,7 +1,3 @@
-// import { useCallback } from 'react';
-// import { nanoid } from 'nanoid';
-
-// import 'react-toastify/dist/ReactToastify.css';
 import ContactsList from 'components/ContactsList';
 import Filter from 'components/Filter';
 import ContactForm from 'components/ContactForm';

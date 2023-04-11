@@ -1,19 +1,28 @@
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/contactsSlice';
 import StyledItem from './ContactsItem.styled';
 import StyledButton from 'components/Button.styled';
 
-function ContactsItem({name, number, onClick, id}) {
+function ContactsItem({ contact }) {
+  const dispatch = useDispatch();
 
-    return (
-        <StyledItem><span>{name}:</span><span>{number}</span><StyledButton type="button" onClick={()=>onClick(id)}>Delete</StyledButton></StyledItem>
-    )
-  }
+  const handleDelete = id => {
+    dispatch(deleteContact(id));
+  };
 
-ContactsItem.propTypes = {
-  name: PropTypes.string.isRequired, 
-  number: PropTypes.string.isRequired, 
-  onClick: PropTypes.func.isRequired, 
-  id: PropTypes.string.isRequired,
-}  
+  const { name, number, id } = contact;
+
+  return (
+    <StyledItem>
+      <span>{name}:</span>
+      <span>{number}</span>
+      <StyledButton type="button" onClick={() => handleDelete(id)}>
+        Delete
+      </StyledButton>
+    </StyledItem>
+  );
+}
+
+// Або перенести айтем назад у ліст
 
 export default ContactsItem;
